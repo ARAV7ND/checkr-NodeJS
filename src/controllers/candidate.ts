@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import CandidateModel from '../models/candidate';
 import ReportModel from '../models/report';
+import bcrypt from 'bcryptjs';
+import { validationResult } from 'express-validator';
 
 export const getCandidates = (req: Request, res: Response, next: NextFunction) => {
     CandidateModel
@@ -19,7 +21,13 @@ export const getCandidates = (req: Request, res: Response, next: NextFunction) =
         })
 }
 
-export const addCandidate = (req: Request, res: Response, next: NextFunction) => {
+export const addCandidate = async (req: Request, res: Response, next: NextFunction) => {
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).send({ error: errors.array()[0].msg });
+    }
     CandidateModel
         .create({
             name: req.body.name,
@@ -28,7 +36,8 @@ export const addCandidate = (req: Request, res: Response, next: NextFunction) =>
             social_security_no: req.body.social_security_no,
             driving_license: req.body.driving_license,
             DOB: req.body.DOB,
-            pin_code: req.body.pin_code
+            pin_code: req.body.pin_code,
+            password: hashedPassword,
         }).then(result => {
             res.status(201).json(result)
         }).catch(error => {
@@ -49,7 +58,12 @@ export const getCandidateById = (req: Request, res: Response, next: NextFunction
         })
 }
 
-export const updateCandidate = (req: Request, res: Response, next: NextFunction) => {
+export const updateCandidate = async (req: Request, res: Response, next: NextFunction) => {
+
+    if (req.body.password) {
+        req.body.password = await bcrypt.hash(req.body.password, 12);
+    }
+
     CandidateModel
         .findByPk(req.params.id)
         .then((candidate) => {

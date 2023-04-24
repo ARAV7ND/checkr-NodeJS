@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import CourtSearchModel from '../models/courtSearch';
 
 
@@ -14,6 +15,10 @@ export const getCourtSeatches = (req: Request, res: Response, next: NextFunction
 }
 
 export const addCourtSearch = (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).send({ error: errors.array()[0].msg });
+    }
     CourtSearchModel
         .create({
             sex_offender: req.body.sex_offender,
