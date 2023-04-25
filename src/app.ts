@@ -1,5 +1,7 @@
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+import authRoutes from './routes/auth';
 import userRoutes from './routes/candidates';
 import courtSearchRoutes from './routes/courtSearches';
 import reportRoutes from './routes/reports';
@@ -12,8 +14,21 @@ const config = dotenv.config({ path: './config.env' });
 
 const app: Application = express();
 const PORT = config.parsed!.PORT || 8000;
+const SECRET = config.parsed!.SECRET || 'somesecret';
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 app.use(bodyParser.json());
+app.use(
+    session({
+        secret: SECRET,
+        resave: false,
+        saveUninitialized: true,
+        store: new SequelizeStore({
+            db: sequelize,
+        }),
+    }));
+
+app.use(authRoutes);
 app.use(userRoutes);
 app.use(courtSearchRoutes);
 app.use(reportRoutes);

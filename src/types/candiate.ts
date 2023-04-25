@@ -6,6 +6,7 @@ export default interface Candidate extends Model<InferAttributes<Candidate>, Inf
     name: string,
     email: string,
     phone: number,
+    password: string,
     social_security_no: string,
     driving_license: string,
     DOB: CreationOptional<Date>,

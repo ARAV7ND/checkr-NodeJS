@@ -34,6 +34,10 @@ const CandidateModel = sequelize.define<Candidate>('candidate', {
     },
     pin_code: {
         type: DataTypes.INTEGER,
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 });
 
