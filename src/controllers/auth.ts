@@ -2,6 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import CandidateModel from "../models/candidate";
 import bcrypt from 'bcryptjs';
 import { validationResult } from "express-validator";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+const config = dotenv.config({ path: './config.env' });
+const SECRET = config.parsed!.SECRET || 'somesecret';
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
     let userId: number;
@@ -27,7 +32,8 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
                     email: req.body.email
                 }
                 req.session.isLoggedIn = true;
-                return res.status(200).json({ message: "login successful" });
+                const token = jwt.sign({ sub: userId }, SECRET, { expiresIn: '1h' });
+                return res.status(200).json({ message: "login successful", token: token });
             }
             res.status(400).json({ message: "please enter valid password and email combination" })
         })

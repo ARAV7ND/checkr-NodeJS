@@ -1,5 +1,6 @@
 import express from "express";
 import Candidate from '../candiate';
+import type { JwtPayload } from "jsonwebtoken"
 
 
 type User = {
@@ -11,6 +12,7 @@ declare module "express-session" {
     interface SessionData {
         user: User;
         isLoggedIn: boolean;
+        payload: JwtPayload | string;
 
     }
 }
