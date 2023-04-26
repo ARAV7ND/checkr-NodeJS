@@ -33,15 +33,15 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
                 }
                 req.session.isLoggedIn = true;
                 const token = jwt.sign({ sub: userId }, SECRET, { expiresIn: '1h' });
-                return res.status(200).json({ message: "login successful", token: token });
+                return res.status(200).json({ message: "Login successful", token: token });
             }
-            res.status(400).json({ message: "please enter valid password and email combination" })
+            res.status(400).json({ message: "Please enter valid password and email combination" })
         })
         .catch(error => res.status(error).json(error));
 }
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
     req.session.destroy(() => {
-        res.status(200).json({ message: "successfully logged out" });
+        res.status(200).json({ message: "Successfully logged out" });
     });
 };
