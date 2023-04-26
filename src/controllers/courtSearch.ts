@@ -38,7 +38,10 @@ export const getCourtSearchById = (req: Request, res: Response, next: NextFuncti
     CourtSearchModel
         .findByPk(req.params.id)
         .then((result) => {
-            res.status(200).json({ courtSearches: result })
+            if (!result) {
+                return res.status(404).json({ message: `court searches not found for : ${req.params.id}` });
+            }
+            return res.status(200).json({ courtSearches: result })
         })
         .catch(error => {
             res.status(400).json({ error: error })

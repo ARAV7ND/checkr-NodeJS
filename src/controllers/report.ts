@@ -11,7 +11,6 @@ export const getReports = (req: Request, res: Response, next: NextFunction) => {
       }]
     })
     .then((result) => {
-      console.log("res::", result);
       res.status(200).json({ report: result });
     })
     .catch((err) => {
@@ -38,7 +37,10 @@ export const getReportById = (req: Request, res: Response, next: NextFunction) =
   ReportModel
     .findByPk(req.params.id)
     .then((result) => {
-      res.status(200).json({ report: result });
+      if (!result) {
+        return res.status(404).json({ message: `Report not found with ID : ${req.params.id}` });
+      }
+      return res.status(200).json({ report: result });
     })
     .catch((err) => {
       res.status(400).json({ err: err });

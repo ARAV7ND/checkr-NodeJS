@@ -8,6 +8,6 @@ const router = Router();
 router.get('/court-searches', isAuth, getCourtSeatches);
 router.post('/court-searches', validateCourtSearches, isAuth, addCourtSearch);
 router.get('/court-searches/:id', isAuth, getCourtSearchById);
-router.patch('/court-searches/:id', validateCourtSearches, isAuth, updateCourtSearchById);
+router.put('/court-searches/:id', validateCourtSearches, isAuth, updateCourtSearchById);
 
 export default router;
