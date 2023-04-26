@@ -5,11 +5,9 @@ import { validateCourtSearches } from '../middleware/validate-request-schema';
 
 const router = Router();
 
-// have to implement auth for this controller, only accessible by the rectruiter
-router.get('/candidates/auth/court-searches', isAuth, getCourtSeatches);
-
-router.post('/candidates/:id/court-searches', validateCourtSearches, isAuth, addCourtSearch);
-router.get('/candidates/:id/court-searches', isAuth, getCourtSearchById);
-router.patch('/candidates/:id/court-searches', validateCourtSearches, isAuth, updateCourtSearchById);
+router.get('/court-searches', isAuth, getCourtSeatches);
+router.post('/court-searches', validateCourtSearches, isAuth, addCourtSearch);
+router.get('/court-searches/:id', isAuth, getCourtSearchById);
+router.patch('/court-searches/:id', validateCourtSearches, isAuth, updateCourtSearchById);
 
 export default router;
