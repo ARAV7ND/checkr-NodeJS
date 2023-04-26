@@ -25,7 +25,7 @@ export const addCourtSearch = (req: Request, res: Response, next: NextFunction) 
             global_watchlist: req.body.global_watchlist,
             federal_criminal: req.body.federal_criminal,
             country_criminal: req.body.country_criminal,
-            candidateId: req.params.id as unknown as number,
+            candidateId: req.body.candidateId,
         }).then((result) => {
             res.status(200).json({ message: " Court search successfully added", data: result });
         })

@@ -4,10 +4,9 @@ import { isAuth } from '../middleware/is-auth';
 
 const router = Router();
 
-router.get('/candidates/auth/report', isAuth, getReports);
-
-router.get('/candidates/:id/report', isAuth, getReportById);
-router.post('/candidates/:id/report', isAuth, addReport);
-router.put('/candidates/:id/report', isAuth, updateReportById);
+router.get('/report', isAuth, getReports);
+router.get('/report/:id', isAuth, getReportById);
+router.post('/report', isAuth, addReport);
+router.put('/report/:id', isAuth, updateReportById);
 
 export default router;

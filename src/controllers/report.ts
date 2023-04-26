@@ -24,7 +24,7 @@ export const addReport = (req: Request, res: Response, next: NextFunction) => {
     .create({
       status: req.body.status,
       adjudication: req.body.adjudication,
-      candidateId: req.params.id as unknown as number
+      candidateId: req.body.candidateId,
     })
     .then((result) => {
       res.status(200).json({ result: result });
@@ -36,7 +36,7 @@ export const addReport = (req: Request, res: Response, next: NextFunction) => {
 
 export const getReportById = (req: Request, res: Response, next: NextFunction) => {
   ReportModel
-    .findOne({ where: { candidateId: req.params.id } })
+    .findByPk(req.params.id)
     .then((result) => {
       res.status(200).json({ report: result });
     })
@@ -47,7 +47,7 @@ export const getReportById = (req: Request, res: Response, next: NextFunction) =
 
 export const updateReportById = (req: Request, res: Response, next: NextFunction) => {
   ReportModel
-    .findOne({ where: { candidateId: req.params.id } })
+    .findByPk(req.params.id)
     .then((report) => {
       if (!report) {
         return res.status(404).json({ message: `report not found with ID : ${req.params.id}` });
