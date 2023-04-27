@@ -13,6 +13,7 @@ import dotenv from 'dotenv';
 const config = dotenv.config({ path: './config.env' });
 
 export const app: Application = express();
+app.disable("x-powered-by");
 const PORT = config.parsed!.PORT || 8000;
 const SECRET = config.parsed!.SECRET || 'somesecret';
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
